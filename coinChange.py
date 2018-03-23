@@ -1,6 +1,6 @@
 from collections import deque
 
-# GOOD
+# GOOD, search, BFS, DP
 
 
 def coinChangeDP(coins, amount):

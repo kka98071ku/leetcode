@@ -1,36 +1,43 @@
 from collections import deque
 
-# GOOD, search, BFS, DP
+"""
+Question:
+    You are given coins of different denominations and a total amount of money amount.
+    Write a function to compute the fewest number of coins that you need to make up that
+    amount. If that amount of money cannot be made up by any combination of the coins,
+    return -1.
+
+Analysis:
+    A variation of Knapsack problem.... We could set the state as (i, j) to represent the
+    solution to the sub-problem "Given coin c_0, ..., c_i and target amount j, what's the
+    fewest number of coins to make up the amount"
+
+    dp[i][j] = min( dp[i - 1][j],          # does not pick coin[i]
+                    dp[i][j - c_i] + 1 )   # picks at least one coin[i]
+
+    The boundary could be dp[_][0] = 0, dp[_][1: amount + 1] = INFINITY
+"""
+
+# GOOD, search, BFS, DP, Knapsack
 
 
-def coinChangeDP(coins, amount):
+def coinChange(coins, amount):
     """
     :type coins: List[int]
     :type amount: int
     :rtype: int
-
-    f(amount) = min(f(amount - coins[0]), f(amount - coins[1]), ...) + 1 or -1
-    errrr, memoized version hits the max stack limit and the iterative version
-    exceeds the time limit.
     """
-    if amount == 0:
-        return 0
-    table = []
     maxInt = amount + 1
-    # assert(amount >= 0)
-    for target in range(1, amount + 1):
-        minCount = maxInt
-        for coin in coins:
-            remain = target - coin
-            if remain == 0:
-                minCount = 1
-            elif remain > 0:
-                minCount = min(minCount, table[remain - 1] + 1)
-        table.append(minCount)
-    return -1 if table[-1] > amount else table[-1]
+    dp = [0] + [maxInt for _ in range(amount)]
+
+    for coin in coins:
+        for j in range(coin, amount + 1):
+            dp[j] = min(dp[j], dp[j - coin] + 1)
+
+    return -1 if dp[-1] == maxInt else dp[-1]
 
 
-def coinChange(coins, amount):
+def _coinChange(coins, amount):
     """
     Convert this to a BFS search problem saves more space and faster
     """

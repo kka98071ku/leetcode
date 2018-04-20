@@ -48,6 +48,5 @@ def maxDivideAndConquer(nums):
     res, _, _ = loop(0, len(nums) - 1)
     return res
 
-
 if __name__ == '__main__':
     print(maxDivideAndConquer([1, 2]))

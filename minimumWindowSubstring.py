@@ -8,6 +8,8 @@ Question:
     Output: "BANC"
 """
 
+# GOOD, sliding window
+
 
 def minWindow(s, t):
     """
